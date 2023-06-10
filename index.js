@@ -30,6 +30,9 @@ async function run() {
     const classesCollection = client
       .db("summerCollection")
       .collection("classes");
+    const instructorsCollection = client
+      .db("summerCollection")
+      .collection("instructors");
 
     // users api
     app.post("/users", async (req, res) => {
@@ -46,6 +49,12 @@ async function run() {
     // classes api
     app.get("/classes", async (req, res) => {
       const result = await classesCollection.find().toArray();
+      res.send(result);
+    });
+
+    // instructors apis
+    app.get("/instructors", async (req, res) => {
+      const result = await instructorsCollection.find().toArray();
       res.send(result);
     });
 
