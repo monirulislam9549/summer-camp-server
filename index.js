@@ -33,6 +33,9 @@ async function run() {
     const instructorsCollection = client
       .db("summerCollection")
       .collection("instructors");
+    const selectsCollection = client
+      .db("summerCollection")
+      .collection("selects");
 
     // users api
     app.post("/users", async (req, res) => {
@@ -55,6 +58,23 @@ async function run() {
     // instructors apis
     app.get("/instructors", async (req, res) => {
       const result = await instructorsCollection.find().toArray();
+      res.send(result);
+    });
+
+    // select api
+    app.get("/selects", async (req, res) => {
+      const email = req.query.email;
+      if (!email) {
+        res.send([]);
+      }
+      const query = { email: email };
+      const result = await selectsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    app.post("/selects", async (req, res) => {
+      const item = req.body;
+      const result = await selectsCollection.insertOne(item);
       res.send(result);
     });
 
