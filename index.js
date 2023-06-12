@@ -167,6 +167,19 @@ async function run() {
       res.send(result);
     });
 
+    app.patch("/editClasses/:id", async (req, res) => {
+      const id = req.params.id;
+      const body = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          ...body,
+        },
+      };
+      const result = await classesCollection.updateOne(filter, updatedDoc);
+      res.send(result);
+    });
+
     // useInstructorClass hook api
     app.get("/classes", verifyJWT, async (req, res) => {
       const email = req.query.email;
